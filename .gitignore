@@ -1,20 +1,5 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Marketplace
-Explore
- @RBG74
-Sign out
-96
-395 643 conceptdev/xamarin-forms-samples
- Code  Issues 11  Pull requests 6  Projects 0  Wiki  Insights
-xamarin-forms-samples/.gitignore
-c4c0295  on Oct 24, 2014
-@conceptdev conceptdev hide hidden files
-     
-185 lines (149 sloc)  2.58 KB
+.vs
+
 ## Xamarin stuff
 Components
 [Pp]ackages
@@ -199,16 +184,3 @@ FakesAssemblies/
 *.userprefs
 
 .DS_Store
-© 2018 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-API
-Training
-Shop
-Blog
-About
-Press h to open a hovercard with more details.
