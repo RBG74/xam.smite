@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:rbg.smite"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:behavior="clr-namespace:rbg.smite.Behaviors"
+             x:Class="rbg.smite.Views.MainPage"
+             Title="{Binding Title}">
+
+    <StackLayout>
+        <SearchBar Text="{Binding SearchText}" />
+        <ListView x:Name="ListGod"
+                  ItemsSource="{Binding FilteredGods}"
+                  HasUnevenRows="True"
+                  SelectedItem="{Binding SelectedGod, Mode=TwoWay}"
+                  CachingStrategy="RecycleElement">
+            <ListView.Behaviors>
+                <behavior:ListViewSelectedItemBehavior 
+                    Command="{Binding GoToDetailCommand}"
+                    Converter="{StaticResource SelectedItemConverter}" />
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ffimageloading:CachedImage HorizontalOptions="Center" VerticalOptions="Center"
+			                    WidthRequest="60" HeightRequest="60"
+			                    DownsampleToViewSize="true"
+			                    Source = "{Binding GodIcon_URL}">
+                            </ffimageloading:CachedImage>
+                            <StackLayout Grid.Column="1"
+                                         Padding="10">
+                                <Label Text="{Binding Name}"
+                                       LineBreakMode="WordWrap"
+                                       FontSize="14"></Label>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Roles}"
+                                       LineBreakMode="NoWrap"
+                                       FontSize="12"></Label>
+                                    <Label Text=" - "
+                                       LineBreakMode="NoWrap"
+                                       FontSize="12"></Label>
+                                    <Label Text="{Binding Title}"
+                                       LineBreakMode="NoWrap"
+                                       FontSize="12"></Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

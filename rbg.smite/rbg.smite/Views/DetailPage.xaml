@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="rbg.smite.Views.DetailPage"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+                HorizontalOptions="Center"
+                Margin="20">
+                <ffimageloading:CachedImage 
+                       HorizontalOptions="CenterAndExpand"
+                       Aspect="AspectFit"
+			           Source = "{Binding God.GodIcon_URL}">
+                </ffimageloading:CachedImage>
+                <Label Text="{Binding God.Name}"
+                       FontSize="30"/>
+                <Label Text="{Binding God.Title}"
+                       FontSize="20"/>
+                <Label Text="{Binding God.Lore}"
+                       FontSize="20"/>
+                <Button
+                    Text="Text to speech" 
+                    Command="{Binding TextToSpeechCommand}"
+                    HorizontalOptions="Center"/>
+                <Button
+                    Text="Share" 
+                    Command="{Binding ShareCommand}"
+                    HorizontalOptions="Center"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
