@@ -65,7 +65,8 @@ namespace rbg.smite.ViewModels
 
             Title = "Liste des Dieux";
 
-            var json = Resources.Resources.GetJSONFromResources("gods.json");
+            //var json = Resources.Resources.GetJSONFromResources("gods.json");
+            var json = Api.Helper.GetGods();
             AllGods = JsonConvert.DeserializeObject<List<God>>(json);
             AllGods = AllGods.OrderBy(x => x.Name).ToList();
             FilteredGods = AllGods;
