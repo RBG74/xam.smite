@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using rbg.smite.Api;
 using System;
 using System.Collections.Generic;
@@ -9,20 +10,20 @@ namespace rbg.smite.Api
 {
     public static class Helper
     {
-        private static string DEVID = AuthInfo.DEVID;
-        private static string AUTHKEY = AuthInfo.AUTHKEY;
+        internal static string DEVID = AuthInfo.DEVID;
+        internal static string AUTHKEY = AuthInfo.AUTHKEY;
 
-        private static string FORMAT = "json";
-        private static string URLPREFIX = "http://api.smitegame.com/smiteapi.svc/";
+        internal static string FORMAT = "json";
+        internal static string URLPREFIX = "http://api.smitegame.com/smiteapi.svc/";
 
-        private static string LANGUAGECODE = "1";
+        internal static string LANGUAGECODE = "1";
 
         private static List<string> AvailableMethods = new List<string>{
             "createsession",
             "getgods"
         };
 
-        private static string CreateSignature(string method, string timestamp)
+        internal static string CreateSignature(string method, string timestamp)
         {
             if (AvailableMethods.Contains(method))
             {
@@ -36,40 +37,27 @@ namespace rbg.smite.Api
             }
         }
 
-        private static string CreateSession(string timestamp)
-        {
-            #warning ne pas créer une session à chaque appel de l'api
-            var method = "createsession";
-            var signature = CreateSignature(method, timestamp);
-            var uri = URLPREFIX + method + FORMAT + "/" + DEVID + "/" + signature + "/" + timestamp;
-
-            string json;
-            using (var wc = new WebClient())
-            {
-                wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                json = wc.DownloadString(uri);
-            }
-
-            var result = JsonConvert.DeserializeObject<ApiResult>(json);
-
-            return result.SessionId;
-        }
+        
 
         public static string GetGods()
         {
             string result = null;
 
-            var method = "getgods";
-            var timestamp = Utilities.GetUtcTimestamp();
-            var signature = CreateSignature(method, timestamp);
-            var session = CreateSession(timestamp);
-            var uri = URLPREFIX + method + FORMAT + "/" + DEVID + "/" + signature + "/" + session + "/" + timestamp + "/" + LANGUAGECODE;
-
-            using (var wc = new WebClient())
+            try
             {
-                wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                result = wc.DownloadString(uri);//wc.UploadString(uri/*, myParameters*/);
+                var method = "getgods";
+                var timestamp = Utilities.GetUtcTimestamp();
+                var signature = CreateSignature(method, timestamp);
+                var session = SessionManager.GetSession(timestamp);
+                var uri = URLPREFIX + method + FORMAT + "/" + DEVID + "/" + signature + "/" + session + "/" + timestamp + "/" + LANGUAGECODE;
+
+                result = Utilities.GetRequest(uri);
             }
+            catch(Exception exception)
+            {
+                Crashes.TrackError(exception);
+            }
+
             return result;
         }
 
