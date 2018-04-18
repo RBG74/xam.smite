@@ -6,6 +6,7 @@ using Plugin.TextToSpeech;
 using Plugin.TextToSpeech.Abstractions;
 using rbg.smite.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -36,8 +37,10 @@ namespace rbg.smite.ViewModels
                 God.Lore,
                 new CrossLocale { Language = "en", Country = "en" }));
             ShareCommand = new Command(async () => await ExecuteShareCommand());
-
-            Analytics.TrackEvent("God viewed: " + God.Name);
+            
+            Analytics.TrackEvent("God detail entered", new Dictionary<string, string> {
+                { "God", God.Name }, { "Role", God.Roles }
+            });
         }
 
         public Command TextToSpeechCommand { get; set; }

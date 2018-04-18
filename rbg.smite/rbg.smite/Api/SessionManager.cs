@@ -1,4 +1,5 @@
-﻿using Microsoft.AppCenter.Crashes;
+﻿using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using rbg.smite.Api.Models;
 using System;
@@ -32,10 +33,12 @@ namespace rbg.smite.Api
                 if (needNewSession)
                 {
                     sessionId = CreateSession(timestamp);
+                    Analytics.TrackEvent("New session created");
                 }
                 else
                 {
                     sessionId = sessionObj.session_id;
+                    Analytics.TrackEvent("Existing session used");
                 }
             }
             catch(Exception exception)
@@ -68,7 +71,7 @@ namespace rbg.smite.Api
                 new MyJsonSession { session_id = result.SessionId, timestamp = timestamp }
                 );
             Utilities.PutRequest(MYJSONURL, data);
-
+            
             return result.SessionId;
         }
     }
