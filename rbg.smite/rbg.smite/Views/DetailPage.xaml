@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="rbg.smite.Views.DetailPage"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             Title="{Binding Title}">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout
@@ -13,12 +14,11 @@
                        Aspect="AspectFit"
 			           Source = "{Binding God.GodIcon_URL}">
                 </ffimageloading:CachedImage>
-                <Label Text="{Binding God.Name}"
-                       FontSize="30"/>
                 <Label Text="{Binding God.Title}"
-                       FontSize="20"/>
+                       FontSize="20"
+                       FontAttributes="Bold"/>
                 <Label Text="{Binding God.Lore}"
-                       FontSize="20"/>
+                       FontSize="14"/>
                 <Button
                     Text="Text to speech" 
                     Command="{Binding TextToSpeechCommand}"

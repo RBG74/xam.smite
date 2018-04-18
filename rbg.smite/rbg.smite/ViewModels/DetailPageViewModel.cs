@@ -1,8 +1,11 @@
-﻿using Plugin.Share;
+﻿using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Plugin.Share;
 using Plugin.Share.Abstractions;
 using Plugin.TextToSpeech;
 using Plugin.TextToSpeech.Abstractions;
 using rbg.smite.Models;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -24,15 +27,17 @@ namespace rbg.smite.ViewModels
         public DetailPageViewModel(INavigation navigation, God god)
         {
             Navigation = navigation;
-
-            Title = "Détail d'un Dieu";
-
+            
             God = god;
+
+            Title = God.Name;
 
             TextToSpeechCommand = new Command(async () => await CrossTextToSpeech.Current.Speak(
                 God.Lore,
-                new CrossLocale { Language = "fr", Country = "fr" }));
+                new CrossLocale { Language = "en", Country = "en" }));
             ShareCommand = new Command(async () => await ExecuteShareCommand());
+
+            Analytics.TrackEvent("God viewed: " + God.Name);
         }
 
         public Command TextToSpeechCommand { get; set; }
@@ -55,7 +60,10 @@ namespace rbg.smite.ViewModels
                     });
                 });
             }
-            catch { }
+            catch(Exception exception)
+            {
+                Crashes.TrackError(exception);
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using rbg.smite.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -80,7 +82,10 @@ namespace rbg.smite.ViewModels
                 SelectedGod = null;
                 await Navigation.PushAsync(new Views.DetailPage(sample));
             }
-            catch { }
+            catch (Exception exception)
+            {
+                Crashes.TrackError(exception);
+            }
         }
 
         public Command SearchCommand { get; set; }
@@ -93,7 +98,10 @@ namespace rbg.smite.ViewModels
                             || x.Roles.ToLower().Contains(SearchText))
                           .ToList();
             }
-            catch { }
+            catch (Exception exception)
+            {
+                Crashes.TrackError(exception);
+            }
         }
     }
 }

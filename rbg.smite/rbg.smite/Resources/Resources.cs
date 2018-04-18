@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AppCenter.Crashes;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -26,8 +27,8 @@ namespace rbg.smite.Resources
                 }
                 json = sb.ToString();
             }
-            catch (Exception e) {
-
+            catch (Exception exception) {
+                Crashes.TrackError(exception);
             }
             return json;
         }
